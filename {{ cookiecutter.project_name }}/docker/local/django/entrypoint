@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# Check if Jupyter config exists, if not, generate it
+if [ ! -f /root/.jupyter/jupyter_server_config.py ]; then
+  echo "Generating Jupyter configuration file..."
+  jupyter server --generate-config
+fi
+
+echo "Jupyter configuration file found at /root/.jupyter/jupyter_server_config.py"
+
+if [ -z "${POSTGRES_USER}" ]; then
+  base_postgres_image_default_user='postgres'
+  export POSTGRES_USER="${base_postgres_image_default_user}"
+fi
+
+export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+
+python << END
+import sys
+import time
+import psycopg2
+suggest_unrecoverable_after = 30
+start = time.time()
+while True:
+  try:
+    psycopg2.connect(
+      dbname="${POSTGRES_DB}",
+      user="${POSTGRES_USER}",
+      password="${POSTGRES_PASSWORD}",
+      host="${POSTGRES_HOST}",
+      port="${POSTGRES_PORT}",
+    )
+    break
+  except psycopg2.OperationalError as error:
+    sys.stderr.write("Waiting for PostgreSQL to become available...\n")
+    if time.time() - start > suggest_unrecoverable_after:
+      sys.stderr.write(" This is taking longer than expected. The following exception may be indicative of an unrecoverable error: '{}'\n".format(error))
+  time.sleep(1)
+END
+
+>&2 echo "PostgreSQL is available"
+
+# Check if the JUPYTER_PASSWORD environment variable is set, default to 'password'
+JUPYTER_PASSWORD="${JUPYTER_PASSWORD:-admin}"
+
+# Set the Jupyter password (hashed password or plaintext token as needed)
+hashed_password=$(python -c "from jupyter_server.auth import passwd; print(passwd('${JUPYTER_PASSWORD}'))")
+
+# Add the hashed password to the Jupyter configuration
+sed -i "/#c.ServerApp.password = .*/c c.ServerApp.password = '${hashed_password}'" /root/.jupyter/jupyter_server_config.py
+echo "Jupyter password has been set."
+
+# # Optionally, disable the token (set an empty token)
+# sed -i "/#c.ServerApp.token = .*/c c.ServerApp.token = ''" /root/.jupyter/jupyter_server_config.py
+
+exec "$@"

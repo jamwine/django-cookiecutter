@@ -1,0 +1,11 @@
+{
+    "project_name": "django_project_name",
+    "admin_name": "Admin",
+    "admin_email": "admin@admin.com",
+    "admin_url": "admin/",
+    "project_short_description": "Short description for your Django Project",
+    "secret_key": "abcDEF123456 (HINT: Generate your own secret key by running `python -c 'import secrets; print(secrets.token_urlsafe(38))'` on terminal)",
+    "version": "0.1.0",
+    "python_version": "3.11.2",
+    "signing_key": "abcDEF123456 (HINT: Generate your own signing key by running `python -c 'import secrets; print(secrets.token_urlsafe(38))'` on terminal)"
+}

@@ -1,0 +1,114 @@
+version: "3.9"
+
+services:
+    api:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start
+        volumes:
+            - .:/app:z
+            - static_volume:/app/staticfiles
+            - media_volume:/app/mediafiles
+        expose:
+            - "8000"
+        ports:
+            - "8000:8000"  # Django
+            - "8890:8890"  # Jupyter
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        depends_on:
+            - postgres
+            - mailhog
+            - redis
+        networks:
+            - django-api
+
+    postgres:
+        build:
+            context: .
+            dockerfile: ./docker/local/postgres/Dockerfile
+        volumes:
+            - local_postgres_data:/var/lib/postgresql/data
+            - local_postgres_data_backups:/backups
+        env_file:
+            - ./.envs/.local/.postgres
+        networks:
+            - django-api
+
+    mailhog:
+        image: mailhog/mailhog:v1.0.0
+        container_name: mailhog
+        ports:
+            - "8025:8025"
+        networks:
+            - django-api
+    
+    redis:
+        image: redis:7-alpine
+        container_name: redis
+        networks:
+            - django-api
+
+    celery_worker:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-celeryworker
+        volumes:
+            - .:/app
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        depends_on:
+            - mailhog
+            - redis
+            - postgres
+        networks:
+            - django-api
+            
+    flower:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-flower
+        volumes:
+            - flower_data:/data
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        depends_on:
+            - redis
+            - postgres
+        ports:
+            - "5555:5555"
+        networks:
+            - django-api
+
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/local/nginx/Dockerfile
+        restart: always
+        volumes:
+            - static_volume:/app/staticfiles
+            - media_volume:/app/mediafiles
+        ports:
+            - "1337:80"
+        depends_on:
+            - api
+        networks:
+            - django-api
+
+networks:
+    django-api:
+        driver: bridge
+
+volumes:
+    static_volume:
+    media_volume:
+    local_postgres_data: {}
+    local_postgres_data_backups: {}
+    flower_data: {}
+    django-jupyter-notebooks: {}
