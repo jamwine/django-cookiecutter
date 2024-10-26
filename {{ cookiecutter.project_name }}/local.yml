@@ -23,7 +23,7 @@ services:
             - mailhog
             - redis
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
 
     postgres:
         build:
@@ -35,7 +35,7 @@ services:
         env_file:
             - ./.envs/.local/.postgres
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
 
     mailhog:
         image: mailhog/mailhog:v1.0.0
@@ -43,13 +43,13 @@ services:
         ports:
             - "8025:8025"
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
     
     redis:
         image: redis:7-alpine
         container_name: redis
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
 
     celery_worker:
         build:
@@ -66,7 +66,7 @@ services:
             - redis
             - postgres
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
             
     flower:
         build:
@@ -84,7 +84,7 @@ services:
         ports:
             - "5555:5555"
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
 
     nginx:
         build:
@@ -99,10 +99,10 @@ services:
         depends_on:
             - api
         networks:
-            - django-api
+            - {{ cookiecutter.project_name }}
 
 networks:
-    django-api:
+    {{ cookiecutter.project_name }}:
         driver: bridge
 
 volumes:
