@@ -25,7 +25,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "gender",
             "country",
             "city",
-            "twitter_handle",
             "about_me",
         ]
 
@@ -50,7 +49,6 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             "gender",
             "country",
             "city",
-            "twitter_handle",
         ]
 
 
@@ -65,5 +63,4 @@ class FollowingSerializer(serializers.ModelSerializer):
             "last_name",
             "profile_photo",
             "about_me",
-            "twitter_handle",
         ]

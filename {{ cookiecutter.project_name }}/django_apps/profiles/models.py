@@ -50,21 +50,6 @@ class Profile(TimeStampedModel):
     profile_photo = models.ImageField(
         verbose_name=_("profile photo"), default="/profile_default.png"
     )
-    twitter_handle = models.CharField(
-        verbose_name=_("twitter handle"), max_length=20, blank=True
-    )
-    followers = models.ManyToManyField(
-        "self", symmetrical=False, related_name="following", blank=True
-    )
 
     def __str__(self):
         return f"{self.user.first_name}'s Profile"
-
-    def follow(self, profile):
-        self.followers.add(profile)
-
-    def unfollow(self, profile):
-        self.followers.remove(profile)
-
-    def check_following(self, profile):
-        return self.followers.filter(pkid=profile.pkid).exists()
