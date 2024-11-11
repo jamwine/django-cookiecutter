@@ -11,6 +11,8 @@ APP_DIR = ROOT_DIR / "django_apps"
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -35,6 +37,7 @@ THIRD_PARTY_APPS =  [
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "rest_framework_simplejwt",
 ]
 
 LOCAL_APPS = [
@@ -199,6 +202,8 @@ SIMPLE_JWT = {
     "SIGNING_KEY": env("SIGNING_KEY"),
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
 REST_AUTH = {

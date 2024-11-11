@@ -1,8 +1,13 @@
 CELERY_BROKER=redis://redis:6379/0
-
-DOMAIN=localhost:1337
-EMAIL_PORT=1025
+CELERY_BACKEND=redis://redis:6379/0
 CELERY_FLOWER_USER=admin 
 CELERY_FLOWER_PASSWORD=admin
 SIGNING_KEY={{ cookiecutter.signing_key }}
 JUPYTER_PASSWORD=admin
+DOMAIN=localhost:1337
+ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+
+EMAIL_PORT=1025
+# EMAIL_HOST=sandbox.smtp.mailtrap.io
+# EMAIL_HOST_USER=
+# EMAIL_HOST_PASSWORD=

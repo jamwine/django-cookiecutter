@@ -3,6 +3,8 @@
 .coverage
 .DS_STORE
 staticfiles
+mediafiles
+client/node_modules
 .envs/*
 !.envs/.local/
 
