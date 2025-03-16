@@ -34,17 +34,28 @@ A production-ready Django project template with Docker support, featuring a mode
 
 ### 2. Creating Your Project
 
-1. First, install Cookiecutter:
+You can create your project in two ways:
+
+1. Install Cookiecutter:
 ```bash
 pip install cookiecutter
 ```
 
-2. Generate your project:
-```bash
-cookiecutter https://github.com/yourusername/django-cookiecutter
-```
+2. Generate your project using one of these options:
+   - **Option 1**: Directly from GitHub Repository:
+   ```bash
+   cookiecutter https://github.com/jamwine/django-cookiecutter
+   ```
+   - **Option 2**: Using local directory after cloning the repository:
+   ```bash
+   git clone https://github.com/jamwine/django-cookiecutter.git
+   cd django-cookiecutter
+   cookiecutter .
+   ```
 
-3. You'll be prompted for various project settings:
+3. You'll be prompted for various project settings, including secret keys:
+   - Generate your own secret key by running: `python -c 'import secrets; print(secrets.token_urlsafe(38))'` in a separate terminal
+   - Alternatively, you can skip this step and set secret keys later by running `make generate-secret-key`
 ```
 project_name [django_project_name]: myproject
 admin_name [Admin]: John Doe
@@ -55,16 +66,10 @@ version [0.1.0]: 0.1.0
 python_version [3.11.2]: 3.11.2
 ```
 
-4. Set up your environment:
+4. Review and update your environment variables as needed:
 ```bash
-cd myproject
-cp .envs/.local/.django.example .envs/.local/.django
-cp .envs/.local/.postgres.example .envs/.local/.postgres
-```
-
-5. Generate and set secret keys:
-```bash
-make generate-secret-key  # Copy the output and update in .envs/.local/.django
+cat .envs/.local/.django
+cat .envs/.local/.postgres
 ```
 
 ### 3. Development Workflow
@@ -161,46 +166,46 @@ make collectstatic
 
 ```
 {{ cookiecutter.project_name }}/
-├── django_apps/                      # Django applications directory
-│   ├── users/                        # Custom user app
-│   ├── core/                         # Core functionality
-│   └── api/                          # API-specific code
+├── django_apps/                # Django applications directory
+│   ├── users/                 # Custom user app
+│   ├── core/                  # Core functionality
+│   └── api/                   # API-specific code
 │
-├── client/                           # Frontend application (React)
-│   ├── src/                          # Source files
-│   └── package.json                  # Frontend dependencies
+├── client/                    # Frontend application (React)
+│   ├── src/                  # Source files
+│   └── package.json          # Frontend dependencies
 │
-├── docker/                           # Docker configuration
-│   ├── local/                        # Development environment
-│   │   ├── django/                   # Django Dockerfile and scripts
-│   │   ├── postgres/                 # PostgreSQL Dockerfile and scripts
-│   │   └── nginx/                    # Nginx configuration
-│   └── production/                   # Production environment
+├── docker/                    # Docker configuration
+│   ├── local/                # Development environment
+│   │   ├── django/          # Django Dockerfile and scripts
+│   │   ├── postgres/        # PostgreSQL Dockerfile and scripts
+│   │   └── nginx/           # Nginx configuration
+│   └── production/          # Production environment
 │
-├── requirements/                     # Python dependencies
-│   ├── base.txt                      # Base requirements
-│   ├── local.txt                     # Development requirements
-│   └── production.txt                # Production requirements
+├── requirements/              # Python dependencies
+│   ├── base.txt             # Base requirements
+│   ├── local.txt            # Development requirements
+│   └── production.txt       # Production requirements
 │
-├── .envs/                            # Environment variables
-│   ├── .local/                       # Development environment
-│   └── .production/                  # Production environment
+├── .envs/                    # Environment variables
+│   ├── .local/              # Development environment
+│   └── .production/         # Production environment
 │
 ├── {{ cookiecutter.project_name }}/  # Django project configuration
-│   ├── settings/                     # Settings files
-│   ├── urls.py                       # URL configuration
-│   └── wsgi.py                       # WSGI configuration
+│   ├── settings/            # Settings files
+│   ├── urls.py             # URL configuration
+│   └── wsgi.py             # WSGI configuration
 │
-├── django-jupyter-notebooks/         # Jupyter notebooks for development
-├── mediafiles/                       # User-uploaded files
-├── staticfiles/                      # Static files
-├── manage.py                         # Django management script
-├── local.yml                         # Docker Compose for development
-├── production.yml                    # Docker Compose for production
-├── Makefile                          # Development automation
-├── pytest.ini                        # pytest configuration
-├── setup.cfg                         # Python tools configuration
-└── .pre-commit-config.yaml           # pre-commit hooks configuration
+├── django-jupyter-notebooks/ # Jupyter notebooks for development
+├── mediafiles/              # User-uploaded files
+├── staticfiles/             # Static files
+├── manage.py               # Django management script
+├── local.yml              # Docker Compose for development
+├── production.yml         # Docker Compose for production
+├── Makefile              # Development automation
+├── pytest.ini            # pytest configuration
+├── setup.cfg             # Python tools configuration
+└── .pre-commit-config.yaml  # pre-commit hooks configuration
 ```
 
 ### Key Files Explained

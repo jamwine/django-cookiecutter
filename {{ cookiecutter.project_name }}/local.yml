@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
     api:
+        container_name: {{ cookiecutter.project_name }}_api
         build:
             context: .
             dockerfile: ./docker/local/django/Dockerfile
@@ -26,6 +27,7 @@ services:
             - {{ cookiecutter.project_name }}
 
     client:
+        container_name: {{ cookiecutter.project_name }}_client
         build:
             context: .
             dockerfile: ./client/docker/local/Dockerfile
@@ -40,6 +42,7 @@ services:
             - {{ cookiecutter.project_name }}
 
     postgres:
+        container_name: {{ cookiecutter.project_name }}_postgres
         build:
             context: .
             dockerfile: ./docker/local/postgres/Dockerfile
@@ -54,20 +57,21 @@ services:
             - {{ cookiecutter.project_name }}
 
     mailhog:
+        container_name: {{ cookiecutter.project_name }}_mailhog
         image: mailhog/mailhog:v1.0.0
-        container_name: mailhog
         ports:
             - "8025:8025"
         networks:
             - {{ cookiecutter.project_name }}
     
     redis:
+        container_name: {{ cookiecutter.project_name }}_redis
         image: redis:7-alpine
-        container_name: redis
         networks:
             - {{ cookiecutter.project_name }}
 
     celery_worker:
+        container_name: {{ cookiecutter.project_name }}_celery_worker
         build:
             context: .
             dockerfile: ./docker/local/django/Dockerfile
@@ -85,6 +89,7 @@ services:
             - {{ cookiecutter.project_name }}
             
     flower:
+        container_name: {{ cookiecutter.project_name }}_flower
         build:
             context: .
             dockerfile: ./docker/local/django/Dockerfile
@@ -103,6 +108,7 @@ services:
             - {{ cookiecutter.project_name }}
 
     nginx:
+        container_name: {{ cookiecutter.project_name }}_nginx
         build:
             context: .
             dockerfile: ./docker/local/nginx/Dockerfile
