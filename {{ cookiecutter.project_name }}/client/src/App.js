@@ -17,6 +17,12 @@ function App() {
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <ServiceCard
+          title="Django Home"
+          description="Access the home page"
+          url="http://localhost:8000"
+          icon="🏠"
+        />
+        <ServiceCard
           title="Django Admin"
           description="Access the admin interface"
           url="http://localhost:8000/admin"

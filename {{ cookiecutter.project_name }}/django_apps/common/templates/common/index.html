@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ cookiecutter.project_name }} API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .service-card {
+            transition: transform 0.2s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1>{{ cookiecutter.project_name }} API</h1>
+            <p class="lead">{{ cookiecutter.project_short_description }}</p>
+        </header>
+
+        <div class="row g-4">
+            <!-- API Documentation -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">📚 API Documentation</h5>
+                        <p class="card-text">Explore the API endpoints and their usage.</p>
+                        <a href="/redoc/" class="btn btn-primary">View Docs</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Interface -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">⚙️ Admin Interface</h5>
+                        <p class="card-text">Manage your application data.</p>
+                        <a href="/admin/" class="btn btn-primary">Access Admin</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Check -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">💓 Health Status</h5>
+                        <p class="card-text">Check system health and services.</p>
+                        <a href="/health/" class="btn btn-primary">View Status</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frontend App -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">🌐 Frontend Application</h5>
+                        <p class="card-text">Access the main application interface.</p>
+                        <a href="http://localhost:1337" class="btn btn-primary">Open App</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Endpoints -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">🔗 API Endpoints</h5>
+                        <p class="card-text">Quick links to main API endpoints:</p>
+                        <ul class="list-unstyled">
+                            <li><a href="/api/v1/auth/login/">Authentication</a></li>
+                            <li><a href="/api/v1/profiles/">Profiles</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Tools -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm service-card">
+                    <div class="card-body">
+                        <h5 class="card-title">🛠️ Dev Tools</h5>
+                        <p class="card-text">Development and monitoring tools:</p>
+                        <ul class="list-unstyled">
+                            <li><a href="http://localhost:8890">Jupyter Lab</a></li>
+                            <li><a href="http://localhost:5555">Flower (Celery)</a></li>
+                            <li><a href="http://localhost:8025">MailHog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

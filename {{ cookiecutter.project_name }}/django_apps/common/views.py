@@ -7,6 +7,9 @@ from redis.exceptions import ConnectionError
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'common/index.html')
+
 def health_check(request):
     # Check database connection
     try:
