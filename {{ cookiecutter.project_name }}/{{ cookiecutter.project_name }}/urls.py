@@ -4,6 +4,7 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from django.conf.urls.static import static
 from dj_rest_auth.views import PasswordResetConfirmView
 from django_apps.users.views import CustomUserDetailsView
 
@@ -31,10 +32,13 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path("api/v1/profiles/", include("django_apps.profiles.urls")),
+    path('', include('django_apps.common.urls')),
 ]
 
 admin.site.site_header = "{{ cookiecutter.project_name }} Admin"
-
 admin.site.site_title = "{{ cookiecutter.project_name }} Admin Portal"
-
 admin.site.index_title = "Welcome to {{ cookiecutter.project_name }} Portal"
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

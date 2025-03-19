@@ -8,6 +8,12 @@ client/node_modules
 .envs/*
 !.envs/.local/
 
+# Next.js specific
+client/.next/
+client/out/
+client/.env*.local
+client/*.tsbuildinfo
+client/next-env.d.ts
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -164,6 +170,11 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

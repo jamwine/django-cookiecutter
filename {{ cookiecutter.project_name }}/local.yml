@@ -10,7 +10,9 @@ services:
         volumes:
             - .:/app:z
             - static_volume:/app/staticfiles
-            - media_volume:/app/mediafiles
+            - media_volume:/app/media
+            - jupyter_volume:/app/django-jupyter-notebooks
+        # Internal API port, not exposed to host
         expose:
             - "8000"
         ports:
@@ -20,9 +22,16 @@ services:
             - ./.envs/.local/.django
             - ./.envs/.local/.postgres
         depends_on:
-            - postgres
-            - mailhog
-            - redis
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
         networks:
             - {{ cookiecutter.project_name }}
 
@@ -30,14 +39,22 @@ services:
         container_name: {{ cookiecutter.project_name }}_client
         build:
             context: .
-            dockerfile: ./client/docker/local/Dockerfile
+            dockerfile: ./docker/local/client/Dockerfile
         restart: on-failure
         volumes:
             - ./client:/app
             - /app/node_modules
+        # Internal client port, not exposed to host
+        expose:
+            - "3000"
+        env_file:
+            - ./.envs/.local/.django
         environment:
-            - CHOKIDAR_USEPOLLING=true
+            - NODE_ENV=development
             - WATCHPACK_POLLING=true
+            - WDS_SOCKET_PORT=1337
+            - CHOKIDAR_USEPOLLING=true
+            - REACT_APP_API_URL=http://localhost:1337/api
         networks:
             - {{ cookiecutter.project_name }}
 
@@ -49,10 +66,18 @@ services:
         volumes:
             - local_postgres_data:/var/lib/postgresql/data
             - local_postgres_data_backups:/backups
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=postgres
         ports:
             - "5432:5432"
-        env_file:
-            - ./.envs/.local/.postgres
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
         networks:
             - {{ cookiecutter.project_name }}
 
@@ -69,6 +94,12 @@ services:
         image: redis:7-alpine
         networks:
             - {{ cookiecutter.project_name }}
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
 
     celery_worker:
         container_name: {{ cookiecutter.project_name }}_celery_worker
@@ -130,6 +161,7 @@ networks:
 volumes:
     static_volume:
     media_volume:
+    jupyter_volume:
     local_postgres_data: {}
     local_postgres_data_backups: {}
     flower_data: {}

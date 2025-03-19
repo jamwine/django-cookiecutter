@@ -13,15 +13,9 @@ This project is built with Docker and includes multiple services. Here's how to 
    - Make (optional, but recommended)
    - Python {{ cookiecutter.python_version }}+ (for local development)
 
-2. Clone the repository:
+2. Review environment variables:
 ```bash
-git clone <your-repo-url>
-cd {{ cookiecutter.project_name }}
-```
-
-3. Review environment variables:
-```bash
-# Copy example environment files
+# Review environment files
 cat .envs/.local/.django
 cat .envs/.local/.postgres
 
@@ -31,15 +25,22 @@ make generate-secret-key
 
 4. Build and start the services:
 ```bash
-make build  # First time build
-make up     # Start services
+make build              # First time build
+make up                 # Start services
+make makemigrations     # Create migrations
+make migrate            # Apply migrations
+make superuser          # Create superuser
+make show-logs-api      # Fetch Jupyter Password or Token
 ```
 
 Your project is now running! Access it at:
-- API: http://localhost:8000/
+- Django: http://localhost:8000/
 - Admin Dashboard: http://localhost:8000/{{ cookiecutter.admin_url }}
-- API Documentation: http://localhost:8000/api/schema/swagger-ui/
-- Frontend: http://localhost:3000/
+- Redoc Documentation: http://localhost:8000/redoc/
+- Frontend: http://localhost:1337/
+- Jupyter Server: http://localhost:8890/
+- Flower (Celery monitoring): http://localhost:5555
+- MailHog (Email testing): http://localhost:8025
 
 ## Development Guide 💻
 

@@ -90,7 +90,17 @@ WSGI_APPLICATION = "{{ cookiecutter.project_name }}.wsgi.application"
 #     }
 # }
 
-DATABASES = {"default": env.db("DATABASE_URL")}
+# DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
+    }
+}
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",

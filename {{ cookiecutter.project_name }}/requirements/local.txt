@@ -16,8 +16,8 @@ flake8==6.1.0
 isort==5.12.0
 pre-commit==3.3.3
 
-# Documentation
-drf-spectacular==0.26.4
+# # Documentation
+# drf-spectacular==0.26.4
 
 # IPython for better Django shell
 ipython==8.14.0
@@ -26,3 +26,8 @@ cookiecutter==1.7.3
 psycopg2-binary==2.9.5
 watchfiles==0.18.1
 jupyter==1.1.1
+
+# Monitoring and health checks
+psutil==5.9.8
+
+drf-yasg==1.21.7  # for API documentation

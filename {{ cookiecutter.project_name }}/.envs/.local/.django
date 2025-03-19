@@ -6,6 +6,7 @@ SIGNING_KEY={{ cookiecutter.signing_key }}
 JUPYTER_PASSWORD=admin
 DOMAIN=localhost:1337
 ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
 
 EMAIL_PORT=1025
 # EMAIL_HOST=sandbox.smtp.mailtrap.io

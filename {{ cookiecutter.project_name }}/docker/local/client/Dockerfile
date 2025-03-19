@@ -1,4 +1,4 @@
-ARG NODE_VERSION=16.14-alpine
+ARG NODE_VERSION=18.17-alpine
 
 FROM node:${NODE_VERSION} as node
 
@@ -19,6 +19,10 @@ COPY ./client ./
 
 # Expose the port the app runs on
 EXPOSE 3000
+
+ENV NODE_ENV=development
+ENV WATCHPACK_POLLING=true
+ENV WDS_SOCKET_PORT=0
 
 # Command to run the application
 CMD ["npm", "start"]

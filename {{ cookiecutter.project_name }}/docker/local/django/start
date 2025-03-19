@@ -4,10 +4,15 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-# Run Django migrations and collect static files
+# Run Django migrations
 echo "Applying migrations..."
-python manage.py migrate --no-input
+python manage.py makemigrations users
+python manage.py makemigrations profiles
 
+# Apply migrations
+python manage.py migrate
+
+# Collect static files
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 

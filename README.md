@@ -49,8 +49,7 @@ pip install cookiecutter
    - **Option 2**: Using local directory after cloning the repository:
    ```bash
    git clone https://github.com/jamwine/django-cookiecutter.git
-   cd django-cookiecutter
-   cookiecutter .
+   cookiecutter django-cookiecutter
    ```
 
 3. You'll be prompted for various project settings, including secret keys:
@@ -156,11 +155,12 @@ make collectstatic
 ### 4. Accessing Services
 
 - Django API: http://localhost:8000
-- Django Admin: http://localhost:8000/dashboard/
-- Frontend (React): http://localhost:3000
+- Django Admin: http://localhost:8000/admin
+- Redoc Documentation: http://localhost:8000/redoc/
+- Frontend (React): http://localhost:1337/
+- Jupyter Server: http://localhost:8890/
 - Flower (Celery monitoring): http://localhost:5555
 - MailHog (Email testing): http://localhost:8025
-- Swagger Documentation: http://localhost:8000/api/schema/swagger-ui/
 
 ## Project Structure
 
